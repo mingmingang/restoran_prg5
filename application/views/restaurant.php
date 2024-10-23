@@ -16,6 +16,7 @@
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="apple-touch-icon" sizes="180x180" href="<?php echo base_url('restaurant/assets/img/favicons/apple-touch-icon.png') ?>">
     <link rel="icon" type="image/png" sizes="32x32" href="<?php echo base_url('restaurant/assets/img/favicons/favicon-32x32.png') ?>">
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url('restaurant/assets/img/favicons/favicon-16x16.png') ?>">
@@ -50,7 +51,9 @@
               <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
                 <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
               </div>
-              <button class="btn btn-white shadow-warning text-warning" type="submit"> <i class="fas fa-user me-2"></i>Login</button>
+              <a href="<?php echo base_url().'TambahMakanan'; ?>" class="btn btn-white shadow-warning text-warning">
+    <i class="fas fa-hamburger me-2"></i>Tambah Makanan
+</a>
             </form>
           </div>
         </div>
