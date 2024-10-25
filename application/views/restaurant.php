@@ -52,7 +52,10 @@
                 <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
               </div>
               <a href="<?php echo base_url().'TambahMakananC'; ?>" class="btn btn-white shadow-warning text-warning">
-    <i class="fas fa-hamburger me-2"></i>Tambah Makanan
+    <i class="fas fa-hamburger me-2"></i>Tambah Menu
+</a>
+<a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+              <i class="fas fa-user me-2"></i>Tambah Pengguna
 </a>
             </form>
           </div>

@@ -55,6 +55,9 @@
               <a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
               <i class="fas fa-home me-2"></i>Beranda
 </a>
+<a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+              <i class="fas fa-user me-2"></i>Tambah Pengguna
+</a>
             </form>
           </div>
         </div>
@@ -115,37 +118,41 @@
         <h2 class="text-center mb-4">Tambah Makanan</h2>
         <form action="<?php echo site_url('tambahmakananc/save'); ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-md-6 mb-3">
+                <!-- <div class="col-md-6 mb-3">
                     <label for="foodID" class="form-label">ID Makanan</label>
-                    <input type="text" class="form-control" id="foodID" name="foodID" value="<?php echo isset($new_id) ? $new_id : ''; ?>" required readonly>
-                </div>
+                    <input type="text" class="form-control" id="foodID" name="foodID" required readonly>
+                </div> -->
                 <div class="col-md-6 mb-3">
-                    <label for="foodName" class="form-label">Nama Makanan</label>
+                    <label for="foodName" class="form-label">Nama Menu</label>
                     <input type="text" class="form-control" id="foodName" name="foodName" required placeholder="Masukkan nama makanan">
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="foodPrice" class="form-label">Harga Makanan</label>
+                    <label for="foodPrice" class="form-label">Harga</label>
                     <input type="number" class="form-control" id="foodPrice" name="foodPrice" required placeholder="Masukkan harga makanan" min="0" step="0.01">
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="foodCategory" class="form-label">Kategori Makanan</label>
-                    <input type="text" class="form-control" id="foodCategory" name="foodCategory" required placeholder="Masukkan kategori makanan">
+                <div class="mb-3">
+                    <label for="foodCategory" class="form-label">Kategori</label>
+                    <label for="foodCategory" class="form-label">Kategori</label>
+                      <select class="form-select" id="foodCategory" name="foodCategory" required>
+                          <option value="" disabled selected>Pilih kategori Menu</option>
+                          <option value="Makanan">Makanan</option>
+                          <option value="Minuman">Minuman</option>
+                      </select>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="foodDescription" class="form-label">Deskripsi</label>
                 <textarea class="form-control" id="foodDescription" name="foodDescription" rows="3" required placeholder="Masukkan deskripsi makanan"></textarea>
             </div>
-            <!-- <div class="mb-3">
-                <label for="foodImage" class="form-label">Gambar Makanan</label>
+            <div class="mb-3">
+                <label for="foodImage" class="form-label">Gambar Menu</label>
                 <input type="file" class="form-control" id="foodImage" name="foodImage" accept="image/*" required>
-            </div> -->
+            </div>
             
-            <button type="submit" class="btn btn-danger">Tambah Makanan</button>
+            <button type="submit" class="btn btn-danger">Tambah Menu</button>
         </form>
     </div>
 </section>
-
 
 
 <!-- End of Section Form Tambah Makanan -->
@@ -158,14 +165,14 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Nama Makanan</th>
+          <th>Nama Menu</th>
           <th>Kategori</th>
           <th>Harga</th>
           <th>Stok</th>
           <th>Aksi</th>
         </tr>
       </thead>
-      <<tbody>
+      <tbody>
     <?php if(!empty($makanan)){ ?>
         <?php foreach ($makanan as $m) { ?>
             <tr>
@@ -174,21 +181,69 @@
                 <td><?php echo number_format($m['harga'], 2); ?></td>
                 <td><?php echo $m['kategori']; ?></td>
                 <td><?php echo $m['deskripsi']; ?></td>
-                <td><img src="<?php echo base_url('uploads/'.$m['gambar']); ?>" alt="<?php echo $m['nama_makanan']; ?>" width="50"></td>
                 <td>
-                    <a href="<?php echo base_url('restaurant/edit_makanan/'.$m['id_makanan']); ?>" class="btn btn-warning">Edit</a>
-                    <a href="<?php echo base_url('restaurant/hapus_makanan/'.$m['id_makanan']); ?>" class="btn btn-danger">Hapus</a>
-                </td>
+    <img src="data:image/jpeg;base64,<?php echo base64_encode($m['gambar']); ?>" alt="<?php echo $m['nama_makanan']; ?>" style="width: 100px; height: auto;">
+</td>
+<td class="text-center"> <!-- Menambahkan class text-center untuk meratakan ke tengah -->
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal<?php echo $m['id_makanan']; ?>">Edit</button>
+    <a href="<?php echo site_url('tambahmakananc/delete/'.$m['id_makanan']); ?>" class="btn btn-danger rounded" onclick="return confirm('Apakah anda yakin?')">Hapus</a>
+</td>
+
             </tr>
         <?php } ?>
     <?php } else { ?>
         <tr>
-            <td colspan="7" class="text-center">Tidak ada data makanan</td>
+            <td colspan="7" class="text-center">Tidak ada data Menu</td>
         </tr>
     <?php } ?>
 </tbody>
 
     </table>
+
+    <!-- Edit Makanan Modal -->
+<div class="modal fade" id="editModal<?php echo $m['id_makanan']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?php echo $m['id_makanan']; ?>" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel<?php echo $m['id_makanan']; ?>">Edit Makanan</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Form Inside Modal -->
+                <form action="<?php echo site_url('tambahmakananc/update/'.$m['id_makanan']); ?>" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Nama Makanan</label>
+                        <input type="text" class="form-control" name="nama_makanan" value="<?php echo $m['nama_makanan']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select name="kategori" class="form-control" required>
+                            <option value="Makanan" <?php echo $m['kategori'] == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
+                            <option value="Minuman" <?php echo $m['kategori'] == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Harga</label>
+                        <input type="text" class="form-control" name="harga" value="<?php echo number_format($m['harga'], 0, ',', '.'); ?>" required placeholder="Masukkan harga makanan" oninput="formatRupiah(this)">
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi</label>
+                        <textarea name="deskripsi" class="form-control" required><?php echo $m['deskripsi']; ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Gambar</label>
+                        <input type="file" class="form-control" name="gambar" accept="image/*">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary rounded">Update</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
   </div>
 </section>
 
@@ -353,10 +408,12 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    <script src="<?php echo base_url('restaurant/vendors/@popperjs/popper.min.js')?>"></script>
-    <script src="<?php echo base_url('restaurant/vendors/bootstrap/bootstrap.min.js')?>"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url('restaurant/vendors/is/is.min.js')?>"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.12.1/polyfill.min.js"></script>
+
     <script src="<?php echo base_url('restaurant/vendors/fontawesome/all.min.js')?>"></script>
     <script src="<?php echo base_url('restaurant/assets/js/theme.js')?>"></script>
 

@@ -14,21 +14,29 @@ class MakananModel extends CI_Model {
 		return $this->db->insert('makanan', $data);
 	}
 
-	public function get_last_id() {
+	public function getLastFoodId() {
         $this->db->select('id_makanan');
-        $this->db->from('makanan');
         $this->db->order_by('id_makanan', 'DESC');
         $this->db->limit(1);
-        $query = $this->db->get();
-    
+        $query = $this->db->get('makanan'); // Ganti 'makanan' dengan nama tabel yang sesuai
         if ($query->num_rows() > 0) {
             return $query->row()->id_makanan;
-        } else {
-            return null; // Return null if no rows are found
         }
+        return 'MKN000'; // ID default jika tidak ada record
+    }    
+
+    public function get_by_id($id) {
+        return $this->db->get_where('makanan', ['id_makanan' => $id])->row_array();
     }
-    
-    
-    
+
+    public function update_makanan($id, $data) {
+        $this->db->where('id_makanan', $id);
+        return $this->db->update('makanan', $data);
+    }
+
+    public function deleteMakanan($id){
+        $this->db->where('id_makanan',$id);
+        $this->db->delete('makanan');
+    }
 }
 ?>

@@ -14,28 +14,81 @@ class TambahMakananC extends CI_Controller {
 	}
 
 	public function save() {
+		$last_id = $this->MakananModel->getLastFoodId();
+		$new_id = 'MKN' . str_pad((intval(substr($last_id, 3)) + 1), 3, '0', STR_PAD_LEFT);
+		// Ambil data dari form
+		$foodName = $this->input->post('foodName');
+		$foodPrice = $this->input->post('foodPrice');
+		$foodCategory = $this->input->post('foodCategory');
+		$foodDescription = $this->input->post('foodDescription');
+	
+		// Proses upload gambar
+		$image = $this->input->post('foodImage');
+		$image = file_get_contents($_FILES['foodImage']['tmp_name']); // Ambil isi file gambar
+	
+		// Siapkan data untuk disimpan
 		$data = [
-			'id_makanan' => $this->input->post('foodID'),
-			'nama_makanan' => $this->input->post('foodName'),
-			'harga' => $this->input->post('foodPrice'),
-			'kategori' => $this->input->post('foodCategory'),
-			'deskripsi' => $this->input->post('foodDescription'),
-			'gambar' => '',  // You can leave this as an empty string or remove it entirely if not needed
+			'id_makanan' => $new_id,  // Gunakan ID baru yang sudah dibuat
+			'nama_makanan' => $foodName,
+			'harga' => $foodPrice,
+			'kategori' => $foodCategory,
+			'deskripsi' => $foodDescription,
+			'gambar' => $image,  // Simpan gambar sebagai BLOB
 		];
 	
-		// Save the data to the database without any image upload
+		// Simpan data ke database
 		$this->MakananModel->insert_makanan($data);
 	
-		// Redirect or load view after saving
+		// Redirect setelah menyimpan
 		redirect('TambahMakananC');
 	}
+
+
+	public function delete($id){
+		$this->MakananModel->deleteMakanan($id);
+		redirect('TambahMakananC');
+	}
+
+	public function edit($id) {
+		// Ambil detail makanan untuk ID yang ditentukan
+		$data['makanan'] = $this->MakananModel->get_by_id($id);
+		if (!$data['makanan']) {
+			show_404(); // Tampilkan halaman 404 jika makanan tidak ditemukan
+		}
+		$this->load->view('edit_makanan', $data); // Muat tampilan form edit dengan data
+	}
+	
+	public function update($id) {
+		// Siapkan data untuk pembaruan
+		$data = [
+			'nama_makanan' => $this->input->post('nama_makanan'),
+			'kategori' => $this->input->post('kategori'),
+			'harga' => $this->input->post('harga'),
+			'deskripsi' => $this->input->post('deskripsi'),
+		];
+	
+		// Jika ada upload gambar, proses upload dan simpan sebagai BLOB
+		if (!empty($_FILES['gambar']['name'])) {
+			// Ambil isi file gambar
+			$image = file_get_contents($_FILES['gambar']['tmp_name']); // Membaca konten file gambar
+			$data['gambar'] = $image; // Simpan gambar sebagai BLOB
+		}
+	
+		// Panggil fungsi model untuk memperbarui catatan
+		$this->MakananModel->update_makanan($id, $data);
+		
+		// Alihkan kembali ke daftar makanan setelah memperbarui
+		redirect('TambahMakananC');
+	}
+	
+	
 	
 	
 	public function add_food() {
 		$this->load->model('MakananModel');
 		$lastId = $this->MakananModel->get_last_id();
 	
-		// Determine the next ID based on the last ID
+
 		if ($lastId) {
 			$number = intval(substr($lastId, 3)) + 1;
 			$newId = 'MKN' . str_pad($number, 3, '0', STR_PAD_LEFT);
