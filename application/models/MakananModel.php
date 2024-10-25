@@ -19,10 +19,15 @@ class MakananModel extends CI_Model {
         $this->db->from('makanan');
         $this->db->order_by('id_makanan', 'DESC');
         $this->db->limit(1);
-    
         $query = $this->db->get();
-        return $query->num_rows() > 0 ? $query->row()->id_makanan : null;
+    
+        if ($query->num_rows() > 0) {
+            return $query->row()->id_makanan;
+        } else {
+            return null; // Return null if no rows are found
+        }
     }
+    
     
     
 }

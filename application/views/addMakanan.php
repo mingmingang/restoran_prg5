@@ -117,7 +117,7 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="foodID" class="form-label">ID Makanan</label>
-                    <input type="text" class="form-control" id="foodID" name="foodID" required readonly>
+                    <input type="text" class="form-control" id="foodID" name="foodID" value="<?php echo isset($new_id) ? $new_id : ''; ?>" required readonly>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="foodName" class="form-label">Nama Makanan</label>
@@ -146,13 +146,6 @@
     </div>
 </section>
 
-<script>
-   document.addEventListener('DOMContentLoaded', function () {
-    var lastId = '<?php echo isset($last_id) ? $last_id : 'MKN000'; ?>';
-    var newId = 'MKN' + String(parseInt(lastId.slice(3)) + 1).padStart(3, '0');
-    document.getElementById('foodID').value = newId;
-});
-</script>
 
 
 <!-- End of Section Form Tambah Makanan -->

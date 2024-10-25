@@ -33,18 +33,20 @@ class TambahMakananC extends CI_Controller {
 	
 	public function add_food() {
 		$this->load->model('MakananModel');
-		$lastId = $this->MakananModel->get_last_id(); // Fetch the last ID from the database
+		$lastId = $this->MakananModel->get_last_id();
 	
 		// Determine the next ID based on the last ID
 		if ($lastId) {
-			$number = intval(substr($lastId, 3)) + 1; // Extract number and increment
-			$newId = 'MKN' . str_pad($number, 3, '0', STR_PAD_LEFT); // Pad with zeros
+			$number = intval(substr($lastId, 3)) + 1;
+			$newId = 'MKN' . str_pad($number, 3, '0', STR_PAD_LEFT);
 		} else {
-			$newId = 'MKN001'; // Start with MKN001 if no records exist
+			$newId = 'MKN001';
 		}
 	
-		$data['new_id'] = $newId; // Pass the new ID to the view
+		// Pass the new ID to the view
+		$data['new_id'] = $newId;
 		$this->load->view('addMakanan', $data);
-	}	
+	}
+		
 }
 ?>
