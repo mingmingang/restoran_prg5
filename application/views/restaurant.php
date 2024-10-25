@@ -51,7 +51,7 @@
               <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
                 <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
               </div>
-              <a href="<?php echo base_url().'TambahMakanan'; ?>" class="btn btn-white shadow-warning text-warning">
+              <a href="<?php echo base_url().'TambahMakananC'; ?>" class="btn btn-white shadow-warning text-warning">
     <i class="fas fa-hamburger me-2"></i>Tambah Makanan
 </a>
             </form>

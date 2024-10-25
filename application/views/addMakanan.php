@@ -52,8 +52,8 @@
               <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
                 <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
               </div>
-              <a href="<?php echo base_url().'TambahMakanan'; ?>" class="btn btn-white shadow-warning text-warning">
-    <i class="fas fa-hamburger me-2"></i>Tambah Makanan
+              <a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+              <i class="fas fa-home me-2"></i>Beranda
 </a>
             </form>
           </div>
@@ -113,7 +113,7 @@
      <section class="py-5 bg-light">
     <div class="container">
         <h2 class="text-center mb-4">Tambah Makanan</h2>
-        <form action="<?php echo base_url('TambahMakanan/save'); ?>" method="POST" enctype="multipart/form-data">
+        <form action="<?php echo site_url('tambahmakananc/save'); ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="foodID" class="form-label">ID Makanan</label>
@@ -136,21 +136,22 @@
                 <label for="foodDescription" class="form-label">Deskripsi</label>
                 <textarea class="form-control" id="foodDescription" name="foodDescription" rows="3" required placeholder="Masukkan deskripsi makanan"></textarea>
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label for="foodImage" class="form-label">Gambar Makanan</label>
                 <input type="file" class="form-control" id="foodImage" name="foodImage" accept="image/*" required>
-            </div>
+            </div> -->
+            
             <button type="submit" class="btn btn-danger">Tambah Makanan</button>
         </form>
     </div>
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var lastId = '<?php echo isset($last_id) ? $last_id : 'MKN000'; ?>';
-        var newId = 'MKN' + String(parseInt(lastId.slice(3)) + 1).padStart(3, '0'); // Generate ID baru
-        document.getElementById('foodID').value = newId; // Set value ke input
-    });
+   document.addEventListener('DOMContentLoaded', function () {
+    var lastId = '<?php echo isset($last_id) ? $last_id : 'MKN000'; ?>';
+    var newId = 'MKN' + String(parseInt(lastId.slice(3)) + 1).padStart(3, '0');
+    document.getElementById('foodID').value = newId;
+});
 </script>
 
 
