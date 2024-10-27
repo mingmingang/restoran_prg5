@@ -6,9 +6,11 @@ class MakananModel extends CI_Model {
 	}
 
 	public function get_all_makanan(){
-		$query = $this->db->get('makanan');
-		return $query->result_array();
-	}
+        $this->db->where('status', 1); // Menambahkan kondisi untuk memilih status yang 1
+        $query = $this->db->get('makanan');
+        return $query->result_array();
+    }
+    
 
 	public function insert_makanan($data){
 		return $this->db->insert('makanan', $data);
@@ -38,5 +40,12 @@ class MakananModel extends CI_Model {
         $this->db->where('id_makanan',$id);
         $this->db->delete('makanan');
     }
+
+    public function updateStatusMakanan($id, $status) {
+        $this->db->where('id_makanan', $id); // Menentukan id_makanan yang akan diperbarui
+        $this->db->update('makanan', array('status' => $status)); // Memperbarui status menjadi 0
+        return $this->db->affected_rows(); // Mengembalikan jumlah baris yang terpengaruh
+    }
+    
 }
 ?>

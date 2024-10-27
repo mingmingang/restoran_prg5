@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    </style>
 
 
     <!-- ===============================================-->
@@ -54,10 +56,10 @@
               </div>
               <a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
               <i class="fas fa-home me-2"></i>Beranda
-</a>
-<a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+              </a>
+              <a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
               <i class="fas fa-user me-2"></i>Tambah Pengguna
-</a>
+            </a>
             </form>
           </div>
         </div>
@@ -115,7 +117,7 @@
      <!-- Section Form Tambah Makanan -->
      <section class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center mb-4">Tambah Makanan</h2>
+        <h2 class="text-center mb-4">Tambah Menu</h2>
         <form action="<?php echo site_url('tambahmakananc/save'); ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <!-- <div class="col-md-6 mb-3">
@@ -149,7 +151,9 @@
                 <input type="file" class="form-control" id="foodImage" name="foodImage" accept="image/*" required>
             </div>
             
-            <button type="submit" class="btn btn-danger">Tambah Menu</button>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-danger">Tambah Menu</button>
+            </div>
         </form>
     </div>
 </section>
@@ -158,7 +162,7 @@
 <!-- End of Section Form Tambah Makanan -->
 
 <!-- Lihat data makanan -->
-<section class="py-5">
+<!-- <section class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">Data Makanan</h2>
     <table class="table table-striped table-bordered">
@@ -173,79 +177,175 @@
         </tr>
       </thead>
       <tbody>
-    <?php if(!empty($makanan)){ ?>
-        <?php foreach ($makanan as $m) { ?>
-            <tr>
-                <td><?php echo $m['id_makanan']; ?></td>
-                <td><?php echo $m['nama_makanan']; ?></td>
-                <td><?php echo number_format($m['harga'], 2); ?></td>
-                <td><?php echo $m['kategori']; ?></td>
-                <td><?php echo $m['deskripsi']; ?></td>
-                <td>
-    <img src="data:image/jpeg;base64,<?php echo base64_encode($m['gambar']); ?>" alt="<?php echo $m['nama_makanan']; ?>" style="width: 100px; height: auto;">
-</td>
-<td class="text-center"> <!-- Menambahkan class text-center untuk meratakan ke tengah -->
-    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal<?php echo $m['id_makanan']; ?>">Edit</button>
-    <a href="<?php echo site_url('tambahmakananc/delete/'.$m['id_makanan']); ?>" class="btn btn-danger rounded" onclick="return confirm('Apakah anda yakin?')">Hapus</a>
-</td>
+        <?php if(!empty($makanan)){ ?>
+            <?php foreach ($makanan as $m) { ?>
+                <tr>
+                    <td><?php echo $m['id_makanan']; ?></td>
+                    <td><?php echo $m['nama_makanan']; ?></td>
+                    <td><?php echo number_format($m['harga'], 2); ?></td>
+                    <td><?php echo $m['kategori']; ?></td>
+                    <td><?php echo $m['deskripsi']; ?></td>
+                    <td>
+                        <img src="data:image/jpeg;base64,<?php echo base64_encode($m['gambar']); ?>" alt="<?php echo $m['nama_makanan']; ?>" style="width: 100px; height: auto;">
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal<?php echo $m['id_makanan']; ?>">Edit</button>
+                        <a href="<?php echo site_url('tambahmakananc/delete/'.$m['id_makanan']); ?>" class="btn btn-danger rounded" onclick="return confirm('Apakah anda yakin?')">Hapus</a>
+                    </td>
+                </tr>
 
+                Edit Makanan Modal (di dalam loop) -->
+                <!-- <div class="modal fade" id="editModal<?php echo $m['id_makanan']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?php echo $m['id_makanan']; ?>" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel<?php echo $m['id_makanan']; ?>">Edit Makanan</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form action="<?php echo site_url('tambahmakananc/update/'.$m['id_makanan']); ?>" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label>Nama Makanan</label>
+                                        <input type="text" class="form-control" name="nama_makanan" value="<?php echo $m['nama_makanan']; ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kategori</label>
+                                        <select name="kategori" class="form-control" required>
+                                            <option value="Makanan" <?php echo $m['kategori'] == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
+                                            <option value="Minuman" <?php echo $m['kategori'] == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Harga</label>
+                                        <input type="text" class="form-control" name="harga" value="<?php echo number_format($m['harga'], 0, ',', '.'); ?>" required placeholder="Masukkan harga makanan" oninput="formatRupiah(this)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Deskripsi</label>
+                                        <textarea name="deskripsi" class="form-control" required><?php echo $m['deskripsi']; ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Gambar</label>
+                                        <input type="file" class="form-control" name="gambar" accept="image/*">
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary rounded">Update</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary rounded" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        <?php } else { ?>
+            <tr>
+                <td colspan="7" class="text-center">Tidak ada data Menu</td>
             </tr>
         <?php } ?>
-    <?php } else { ?>
-        <tr>
-            <td colspan="7" class="text-center">Tidak ada data Menu</td>
-        </tr>
-    <?php } ?>
-</tbody>
-
+      </tbody>
     </table>
+  </div>
+</section> -->
 
-    <!-- Edit Makanan Modal -->
-<div class="modal fade" id="editModal<?php echo $m['id_makanan']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?php echo $m['id_makanan']; ?>" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel<?php echo $m['id_makanan']; ?>">Edit Makanan</h5>
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Data Menu</h2>
+    <div class="row gx-2">
+      <?php if (!empty($makanan)) { ?>
+        <?php foreach ($makanan as $m) { ?>
+          <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
+          <div class="card card-span h-100 text-white rounded-3 shadow">
+          <img class="img-fluid rounded-3" src="data:image/jpeg;base64,<?php echo base64_encode($m['gambar']); ?>" alt="<?php echo $m['nama_makanan']; ?>" style="width: 100%; height: 200px; object-fit: cover;">
+              
+              <div class="card-body ps-0">
+              <h5 class="mb-0 fw-bold text-1000 ps-3"><?php echo $m['nama_makanan']; ?></h5>
+                <p class="mt-2 text-1000 ps-3"><?php echo $m['kategori']; ?> - Rp <?php echo number_format($m['harga'], 0, ',', '.'); ?></p>
+                <p class="mt-2 text-1000 ps-3"><?php echo $m['deskripsi']; ?></p>
+                <!-- Tombol Edit dan Hapus -->
+                <div class="d-flex justify-content-end">
+                  <!-- Tombol Edit -->
+                  <a href="#" class="me-3 text-warning" data-toggle="modal" data-target="#editModal<?php echo $m['id_makanan']; ?>" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <!-- Tombol Hapus -->
+                     <!-- Tombol Hapus menggunakan Modal Konfirmasi -->
+                     <a href="#" class="text-danger" data-toggle="modal" data-target="#deleteModal<?php echo $m['id_makanan']; ?>" title="Hapus">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </div>
+              </div>
             </div>
-            <div class="modal-body">
-                <!-- Form Inside Modal -->
-                <form action="<?php echo site_url('tambahmakananc/update/'.$m['id_makanan']); ?>" method="post" enctype="multipart/form-data">
+          </div>
+
+           <!-- Modal Konfirmasi Hapus -->
+           <div class="modal fade" id="deleteModal<?php echo $m['id_makanan']; ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $m['id_makanan']; ?>" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel<?php echo $m['id_makanan']; ?>">Konfirmasi Penghapusan</h5>
+                </div>
+                <div class="modal-body">
+                  Apakah Anda yakin ingin menghapus item <strong><?php echo $m['nama_makanan']; ?></strong>?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                  <a href="<?php echo site_url('tambahmakananc/delete/'.$m['id_makanan']); ?>" class="btn btn-danger">Hapus</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Edit Makanan (di dalam loop) -->
+          <div class="modal fade" id="editModal<?php echo $m['id_makanan']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?php echo $m['id_makanan']; ?>" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editModalLabel<?php echo $m['id_makanan']; ?>">Edit Makanan</h5>
+                </div>
+                <div class="modal-body">
+                  <!-- Form Edit -->
+                  <form action="<?php echo site_url('tambahmakananc/update/'.$m['id_makanan']); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label>Nama Makanan</label>
-                        <input type="text" class="form-control" name="nama_makanan" value="<?php echo $m['nama_makanan']; ?>" required>
+                      <label>Nama Makanan</label>
+                      <input type="text" class="form-control" name="nama_makanan" value="<?php echo $m['nama_makanan']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <label>Kategori</label>
-                        <select name="kategori" class="form-control" required>
-                            <option value="Makanan" <?php echo $m['kategori'] == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
-                            <option value="Minuman" <?php echo $m['kategori'] == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
-                        </select>
+                      <label>Kategori</label>
+                      <select name="kategori" class="form-control" required>
+                        <option value="Makanan" <?php echo $m['kategori'] == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
+                        <option value="Minuman" <?php echo $m['kategori'] == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
+                      </select>
                     </div>
                     <div class="form-group">
-                        <label>Harga</label>
-                        <input type="text" class="form-control" name="harga" value="<?php echo number_format($m['harga'], 0, ',', '.'); ?>" required placeholder="Masukkan harga makanan" oninput="formatRupiah(this)">
+                      <label>Harga</label>
+                      <input type="text" class="form-control" name="harga" value="<?php echo number_format($m['harga'], 0, ',', '.'); ?>" required>
                     </div>
                     <div class="form-group">
-                        <label>Deskripsi</label>
-                        <textarea name="deskripsi" class="form-control" required><?php echo $m['deskripsi']; ?></textarea>
+                      <label>Deskripsi</label>
+                      <textarea name="deskripsi" class="form-control" required><?php echo $m['deskripsi']; ?></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Gambar</label>
-                        <input type="file" class="form-control" name="gambar" accept="image/*">
+                      <label>Gambar</label>
+                      <input type="file" class="form-control" name="gambar" accept="image/*">
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary rounded">Update</button>
-                </form>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary rounded" data-dismiss="modal">Close</button>
+                </div>
+              </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+          </div>
+        <?php } ?>
+      <?php } else { ?>
+        <p class="text-center">Tidak ada data Menu</p>
+      <?php } ?>
     </div>
-</div>
-
   </div>
 </section>
+
 
 
 

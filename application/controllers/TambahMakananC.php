@@ -33,7 +33,8 @@ class TambahMakananC extends CI_Controller {
 			'harga' => $foodPrice,
 			'kategori' => $foodCategory,
 			'deskripsi' => $foodDescription,
-			'gambar' => $image,  // Simpan gambar sebagai BLOB
+			'gambar' => $image,
+			'status' => 1,  // Simpan gambar sebagai BLOB
 		];
 	
 		// Simpan data ke database
@@ -44,10 +45,16 @@ class TambahMakananC extends CI_Controller {
 	}
 
 
+	// public function delete($id){
+	// 	$this->MakananModel->deleteMakanan($id);
+	// 	redirect('TambahMakananC');
+	// }
+
 	public function delete($id){
-		$this->MakananModel->deleteMakanan($id);
-		redirect('TambahMakananC');
+		$this->MakananModel->updateStatusMakanan($id, 0); // Mengubah status menjadi 0
+		redirect('TambahMakananC'); // Mengarahkan kembali ke halaman setelah mengubah status
 	}
+	
 
 	public function edit($id) {
 		// Ambil detail makanan untuk ID yang ditentukan
