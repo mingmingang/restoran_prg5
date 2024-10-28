@@ -284,7 +284,7 @@
                   </div>
                 </div>
                 <div class="d-grid gap-2">
-                  <a class="btn btn-lg btn-danger" href="#!" role="button">Order now</a>
+                  <a class="btn btn-lg btn-danger" href="<?php echo base_url().'UserC'; ?>" role="button">Pesan Sekarang</a>
                 </div>
               </div>
             <?php

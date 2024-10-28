@@ -38,7 +38,7 @@
             </div>
             <form class="d-flex mt-4 mt-lg-0 ms-lg-auto ms-xl-0">
             
-              <a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+              <a href="<?php echo base_url().'MainmenuC'; ?>" class="btn btn-white shadow-warning text-warning">
               <i class="fas fa-home me-2"></i>Beranda
               </a>
             </form>

@@ -46,6 +46,14 @@ class MakananModel extends CI_Model {
         $this->db->update('makanan', array('status' => $status)); // Memperbarui status menjadi 0
         return $this->db->affected_rows(); // Mengembalikan jumlah baris yang terpengaruh
     }
+
+    public function get_all_makanan_kategori() {
+        $this->load->helper('url');
+        $this->db->select('id_makanan, nama_makanan, harga, kategori, deskripsi, gambar');
+        $this->db->from('makanan');
+        $query = $this->db->get();
+        return $query->result();
+    }
     
 }
 ?>

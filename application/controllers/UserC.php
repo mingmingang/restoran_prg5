@@ -21,6 +21,12 @@ class UserC extends CI_Controller {
         $this->load->view('register_view');
     }
 
+    public function addUser() {
+        $this->load->model('UserM');
+		$data['user'] = $this->UserM->get_all_user();
+		$this->load->view('adduser', $data);
+    }
+
     public function register_user() {
         // Logic untuk menyimpan data pengguna baru
         $this->load->model('UserM');
@@ -48,11 +54,12 @@ class UserC extends CI_Controller {
             if ($user->password === $password) {
                 // Set session data jika login berhasil
                 $this->session->set_userdata('logged_in', true);
+                $this->session->set_userdata('id_user', $user->id_user);
                 $this->session->set_userdata('username', $user->username);
                 $this->session->set_userdata('role', $user->role); // Menyimpan role pengguna
                 
                 // Cek apakah pengguna adalah admin
-                if ($user->role === 'admin') {
+                if ($user->role === 'admin' || $user->role === 'Admin') {
                     // Redirect ke halaman admin
                     redirect('DashboardC'); // Ganti 'AdminDashboard' dengan controller yang sesuai untuk admin
                 } else {
@@ -95,6 +102,31 @@ class UserC extends CI_Controller {
         }
     }
 
+    public function simpanUser() {
+        $last_id = $this->UserM->getLastUserId();
+        $new_id = 'USR' . str_pad((intval(substr($last_id, 3)) + 1), 3, '0', STR_PAD_LEFT);
+    
+        // Ambil data dari form
+        $data = [
+            'id_user' => $new_id,
+            'nama_user' => $this->input->post('nama'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'role' => $this->input->post('role'),
+            'status' => 1
+        ];
+    
+        // Simpan data ke database melalui model
+        if ($this->UserM->register($data)) {
+            $this->session->set_flashdata('success', 'Pengguna berhasil ditambahkan.');
+            redirect('UserC/addUser');
+        } else {
+            $this->session->set_flashdata('error', 'Gagal menambahkan pengguna. Silakan coba lagi.');
+            redirect('UserC/addUser');
+        }
+    }
+    
+
     public function change_password() {
         // Load the view for changing password
         $this->load->view('change_password_view');
@@ -121,6 +153,38 @@ class UserC extends CI_Controller {
     
         redirect('UserC/change_password'); // Redirect kembali ke halaman ubah password
     }    
+
+
+    public function edit($id) {
+		// Ambil detail makanan untuk ID yang ditentukan
+		$data['user'] = $this->UserM->get_by_id($id);
+		if (!$data['user']) {
+			show_404(); // Tampilkan halaman 404 jika makanan tidak ditemukan
+		}
+		$this->load->view('edit_user', $data); // Muat tampilan form edit dengan data
+	}
+	
+	public function update($id) {
+		// Siapkan data untuk pembaruan
+		$data = [
+			'nama_user' => $this->input->post('nama_user'),
+			'username' => $this->input->post('username'),
+			'password' => $this->input->post('password'),
+			'role' => $this->input->post('role'),
+            'status' => 1,
+		];
+
+		// Panggil fungsi model untuk memperbarui catatan
+		$this->UserM->update_user($id, $data);
+		
+		// Alihkan kembali ke daftar makanan setelah memperbarui
+		redirect('UserC/addUser');
+	}
+
+    public function delete($id){
+		$this->UserM->updateStatusUser($id, 0); // Mengubah status menjadi 0
+		redirect('UserC/addUser'); // Mengarahkan kembali ke halaman setelah mengubah status
+	}
     
 }
 ?>

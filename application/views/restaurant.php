@@ -44,9 +44,6 @@
         <div class="container"><a class="navbar-brand d-inline-flex" href="<?php echo base_url('restaurant/index.html')?>"><img class="d-inline-block" src="<?php echo base_url('restaurant/assets/img/gallery/logo.svg')?>" alt="logo" /><span class="text-1000 fs-3 fw-bold ms-2 text-gradient">foodwaGon</span></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"> </span></button>
           <div class="collapse navbar-collapse border-top border-lg-0 my-2 mt-lg-0" id="navbarSupportedContent">
-            <div class="mx-auto pt-5 pt-lg-0 d-block d-lg-none d-xl-block">
-              <p class="mb-0 fw-bold text-lg-center">Deliver to: <i class="fas fa-map-marker-alt text-warning mx-2"></i><span class="fw-normal">Current Location </span><span>Mirpur 1 Bus Stand, Dhaka</span></p>
-            </div>
             <form class="d-flex mt-4 mt-lg-0 ms-lg-auto ms-xl-0">
               <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
                 <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
@@ -54,13 +51,40 @@
               <a href="<?php echo base_url().'TambahMakananC'; ?>" class="btn btn-white shadow-warning text-warning">
     <i class="fas fa-hamburger me-2"></i>Tambah Menu
 </a>
-<a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+<a href="<?php echo base_url().'UserC/addUser'; ?>" class="btn btn-white shadow-warning text-warning">
               <i class="fas fa-user me-2"></i>Tambah Pengguna
 </a>
+<a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+              <i class="fas fa-shopping-cart  me-2"></i>Data Transaksi
+</a>
+<a href="#" class="btn btn-white shadow-warning text-warning" data-bs-toggle="modal" data-bs-target="#logoutModal">
+    <i class="fas fa-sign-out-alt me-2"></i> Keluar
+</a>
+
             </form>
           </div>
         </div>
       </nav>
+
+            <!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Keluar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin ingin keluar?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <a href="<?php echo base_url().'DashboardC/logout'; ?>" class="btn btn-warning">Keluar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
       <section class="py-5 overflow-hidden bg-primary" id="home">
         <div class="container">
           <div class="row flex-center">

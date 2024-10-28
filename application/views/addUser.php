@@ -6,6 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        .password-mask {
+    font-family: sans-serif;
+    letter-spacing: 3px;
+    -webkit-text-security: disc; /* Untuk Safari dan Chrome */
+    text-security: disc; /* Untuk Firefox dan browser lainnya */
+}
+
     </style>
 
 
@@ -54,21 +61,22 @@
               <a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
               <i class="fas fa-home me-2"></i>Beranda
               </a>
-              <a href="<?php echo base_url().'UserC/addUser'; ?>" class="btn btn-white shadow-warning text-warning">
-                            <i class="fas fa-user me-2"></i>Tambah Pengguna
-              </a>
-              <a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
-                            <i class="fas fa-shopping-cart  me-2"></i>Data Transaksi
-              </a>
-              <a href="#" class="btn btn-white shadow-warning text-warning" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt me-2"></i> Keluar
-              </a>
+              <a href="<?php echo base_url().'TambahMakananC'; ?>" class="btn btn-white shadow-warning text-warning">
+    <i class="fas fa-hamburger me-2"></i>Tambah Menu
+</a>
+<a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+              <i class="fas fa-shopping-cart  me-2"></i>Data Transaksi
+</a>
+<a href="#" class="btn btn-white shadow-warning text-warning" data-bs-toggle="modal" data-bs-target="#logoutModal">
+    <i class="fas fa-sign-out-alt me-2"></i> Keluar
+</a>
             </form>
           </div>
         </div>
       </nav>
 
-       <!-- Logout Modal -->
+      
+            <!-- Logout Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog">
     <div class="modal-content">
@@ -139,234 +147,151 @@
      <!-- Section Form Tambah Makanan -->
      <section class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center mb-4">Tambah Menu</h2>
-        <form action="<?php echo site_url('tambahmakananc/save'); ?>" method="POST" enctype="multipart/form-data">
+        <h2 class="text-center mb-4">Tambah Pengguna</h2>
+        <form action="<?php echo site_url('UserC/simpanUser'); ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <!-- <div class="col-md-6 mb-3">
-                    <label for="foodID" class="form-label">ID Makanan</label>
-                    <input type="text" class="form-control" id="foodID" name="foodID" required readonly>
-                </div> -->
                 <div class="col-md-6 mb-3">
-                    <label for="foodName" class="form-label">Nama Menu</label>
-                    <input type="text" class="form-control" id="foodName" name="foodName" required placeholder="Masukkan nama makanan">
+                    <label for="nama_user" class="form-label">Nama Pengguna</label>
+                    <input type="text" class="form-control" id="nama_user" name="nama" required placeholder="Masukkan nama pengguna">
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="foodPrice" class="form-label">Harga</label>
-                    <input type="number" class="form-control" id="foodPrice" name="foodPrice" required placeholder="Masukkan harga makanan" min="0" step="0.01">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required placeholder="Masukkan username">
                 </div>
-                <div class="mb-3">
-                    <label for="foodCategory" class="form-label">Kategori</label>
-                    <label for="foodCategory" class="form-label">Kategori</label>
-                      <select class="form-select" id="foodCategory" name="foodCategory" required>
-                          <option value="" disabled selected>Pilih kategori Menu</option>
-                          <option value="Makanan">Makanan</option>
-                          <option value="Minuman">Minuman</option>
-                      </select>
+                <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label">Kata Sandi</label>
+                    <input type="password" class="form-control" id="password" name="password" required placeholder="Masukkan kata sandi">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role" required>
+                        <option value="" disabled selected>Pilih Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="foodDescription" class="form-label">Deskripsi</label>
-                <textarea class="form-control" id="foodDescription" name="foodDescription" rows="3" required placeholder="Masukkan deskripsi makanan"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="foodImage" class="form-label">Gambar Menu</label>
-                <input type="file" class="form-control" id="foodImage" name="foodImage" accept="image/*" required>
-            </div>
-            
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-danger">Tambah Menu</button>
+                <button type="submit" class="btn btn-danger">Tambah Pengguna</button>
             </div>
         </form>
-    </div>
-</section>
+     
+         </div>
+        </section>
+
+
+
 
 
 <!-- End of Section Form Tambah Makanan -->
 
-<!-- Lihat data makanan -->
-<!-- <section class="py-5">
+
+<section class="py-5">
   <div class="container">
-    <h2 class="text-center mb-4">Data Makanan</h2>
+    <h2 class="text-center mb-4">Data Pengguna</h2>
     <table class="table table-striped table-bordered">
-      <thead>
+      <thead style="text-align: center;">
         <tr>
           <th>ID</th>
-          <th>Nama Menu</th>
-          <th>Kategori</th>
-          <th>Harga</th>
-          <th>Stok</th>
+          <th>Nama Pengguna</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Role</th>
           <th>Aksi</th>
         </tr>
       </thead>
       <tbody>
-        <?php if(!empty($makanan)){ ?>
-            <?php foreach ($makanan as $m) { ?>
+        <?php if(!empty($user)){ ?>
+            <?php foreach ($user as $u) { ?>
                 <tr>
-                    <td><?php echo $m['id_makanan']; ?></td>
-                    <td><?php echo $m['nama_makanan']; ?></td>
-                    <td><?php echo number_format($m['harga'], 2); ?></td>
-                    <td><?php echo $m['kategori']; ?></td>
-                    <td><?php echo $m['deskripsi']; ?></td>
-                    <td>
-                        <img src="data:image/jpeg;base64,<?php echo base64_encode($m['gambar']); ?>" alt="<?php echo $m['nama_makanan']; ?>" style="width: 100px; height: auto;">
-                    </td>
+                    <td><?php echo $u['id_user']; ?></td>
+                    <td><?php echo $u['nama_user']; ?></td>
+                    <td><?php echo $u['username']; ?></td>
+                    <td><span class="password-mask"><?php echo $u['password']; ?></span></td>
+                    <td><?php echo $u['role']; ?></td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal<?php echo $m['id_makanan']; ?>">Edit</button>
-                        <a href="<?php echo site_url('tambahmakananc/delete/'.$m['id_makanan']); ?>" class="btn btn-danger rounded" onclick="return confirm('Apakah anda yakin?')">Hapus</a>
+                    <a href="#" class="me-3 text-warning" data-toggle="modal" data-target="#editUserModal<?php echo $u['id_user']; ?>" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                        <a href="#" class="text-danger" data-toggle="modal" data-target="#deleteModal<?php echo $u['id_user']; ?>" title="Hapus">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+
                     </td>
                 </tr>
+          <!-- Modal Edit Pengguna (di dalam loop) -->
+<div class="modal fade" id="editUserModal<?php echo $u['id_user']; ?>" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel<?php echo $u['id_user']; ?>" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserModalLabel<?php echo $u['id_user']; ?>">Edit Pengguna</h5>
+      </div>
+      <div class="modal-body">
+        <!-- Form Edit Pengguna -->
+        <form action="<?php echo site_url('UserC/update/'.$u['id_user']); ?>" method="POST" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="edit_nama_user<?php echo $u['id_user']; ?>" class="form-label">Nama Pengguna</label>
+              <input type="text" class="form-control" id="edit_nama_user<?php echo $u['id_user']; ?>" name="nama_user" value="<?php echo $u['nama_user']; ?>" required placeholder="Masukkan nama pengguna">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="edit_username<?php echo $u['id_user']; ?>" class="form-label">Username</label>
+              <input type="text" class="form-control" id="edit_username<?php echo $u['id_user']; ?>" name="username" value="<?php echo $u['username']; ?>" required placeholder="Masukkan username">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="edit_password<?php echo $u['id_user']; ?>" class="form-label">Kata Sandi</label>
+              <input type="password" class="form-control" id="edit_password<?php echo $u['id_user']; ?>" name="password" placeholder="Masukkan kata sandi (kosongkan jika tidak ingin mengubah)" value="<?php echo $u['password']; ?>"> 
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="edit_role<?php echo $u['id_user']; ?>" class="form-label">Role</label>
+              <select class="form-select" id="edit_role<?php echo $u['id_user']; ?>" name="role" required>
+                <option value="" disabled>Pilih Role</option>
+                <option value="admin" <?php echo $u['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                <option value="user" <?php echo $u['role'] == 'user' ? 'selected' : ''; ?>>User</option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Edit</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-                Edit Makanan Modal (di dalam loop) -->
-                <!-- <div class="modal fade" id="editModal<?php echo $m['id_makanan']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?php echo $m['id_makanan']; ?>" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editModalLabel<?php echo $m['id_makanan']; ?>">Edit Makanan</h5>
-                            </div>
-                            <div class="modal-body">
-                                <form action="<?php echo site_url('tambahmakananc/update/'.$m['id_makanan']); ?>" method="post" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <label>Nama Makanan</label>
-                                        <input type="text" class="form-control" name="nama_makanan" value="<?php echo $m['nama_makanan']; ?>" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Kategori</label>
-                                        <select name="kategori" class="form-control" required>
-                                            <option value="Makanan" <?php echo $m['kategori'] == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
-                                            <option value="Minuman" <?php echo $m['kategori'] == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Harga</label>
-                                        <input type="text" class="form-control" name="harga" value="<?php echo number_format($m['harga'], 0, ',', '.'); ?>" required placeholder="Masukkan harga makanan" oninput="formatRupiah(this)">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Deskripsi</label>
-                                        <textarea name="deskripsi" class="form-control" required><?php echo $m['deskripsi']; ?></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Gambar</label>
-                                        <input type="file" class="form-control" name="gambar" accept="image/*">
-                                    </div>
-                                    <br>
-                                    <button type="submit" class="btn btn-primary rounded">Update</button>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary rounded" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="modal fade" id="deleteModal<?php echo $u['id_user']; ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $u['id_user']; ?>" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteModalLabel<?php echo $u['id_user']; ?>">Konfirmasi Penghapusan</h5>
                 </div>
+                <div class="modal-body">
+                  Apakah Anda yakin ingin menghapus pengguna <strong><?php echo $u['nama_user']; ?></strong>?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                  <a href="<?php echo site_url('userc/delete/'.$u['id_user']); ?>" class="btn btn-danger">Hapus</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
             <?php } ?>
         <?php } else { ?>
             <tr>
-                <td colspan="7" class="text-center">Tidak ada data Menu</td>
+                <td colspan="7" class="text-center">Tidak ada data pengguna</td>
             </tr>
         <?php } ?>
       </tbody>
     </table>
   </div>
-</section> -->
-
-<section class="py-5">
-  <div class="container">
-    <h2 class="text-center mb-4">Data Menu</h2>
-    <div class="row gx-2">
-      <?php if (!empty($makanan)) { ?>
-        <?php foreach ($makanan as $m) { ?>
-          <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-          <div class="card card-span h-100 text-white rounded-3 shadow">
-          <img class="img-fluid rounded-3" src="data:image/jpeg;base64,<?php echo base64_encode($m['gambar']); ?>" alt="<?php echo $m['nama_makanan']; ?>" style="width: 100%; height: 200px; object-fit: cover;">
-              
-              <div class="card-body ps-0">
-              <h5 class="mb-0 fw-bold text-1000 ps-3"><?php echo $m['nama_makanan']; ?></h5>
-                <p class="mt-2 text-1000 ps-3"><?php echo $m['kategori']; ?> - Rp <?php echo number_format($m['harga'], 0, ',', '.'); ?></p>
-                <p class="mt-2 text-1000 ps-3"><?php echo $m['deskripsi']; ?></p>
-                <!-- Tombol Edit dan Hapus -->
-                <div class="d-flex justify-content-end">
-                  <!-- Tombol Edit -->
-                  <a href="#" class="me-3 text-warning" data-toggle="modal" data-target="#editModal<?php echo $m['id_makanan']; ?>" title="Edit">
-                    <i class="fas fa-edit"></i>
-                  </a>
-                  <!-- Tombol Hapus -->
-                     <!-- Tombol Hapus menggunakan Modal Konfirmasi -->
-                     <a href="#" class="text-danger" data-toggle="modal" data-target="#deleteModal<?php echo $m['id_makanan']; ?>" title="Hapus">
-                    <i class="fas fa-trash-alt"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <!-- Modal Konfirmasi Hapus -->
-           <div class="modal fade" id="deleteModal<?php echo $m['id_makanan']; ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $m['id_makanan']; ?>" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="deleteModalLabel<?php echo $m['id_makanan']; ?>">Konfirmasi Penghapusan</h5>
-                </div>
-                <div class="modal-body">
-                  Apakah Anda yakin ingin menghapus item <strong><?php echo $m['nama_makanan']; ?></strong>?
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                  <a href="<?php echo site_url('tambahmakananc/delete/'.$m['id_makanan']); ?>" class="btn btn-danger">Hapus</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Modal Edit Makanan (di dalam loop) -->
-          <div class="modal fade" id="editModal<?php echo $m['id_makanan']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?php echo $m['id_makanan']; ?>" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="editModalLabel<?php echo $m['id_makanan']; ?>">Edit Makanan</h5>
-                </div>
-                <div class="modal-body">
-                  <!-- Form Edit -->
-                  <form action="<?php echo site_url('tambahmakananc/update/'.$m['id_makanan']); ?>" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                      <label>Nama Makanan</label>
-                      <input type="text" class="form-control" name="nama_makanan" value="<?php echo $m['nama_makanan']; ?>" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Kategori</label>
-                      <select name="kategori" class="form-control" required>
-                        <option value="Makanan" <?php echo $m['kategori'] == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
-                        <option value="Minuman" <?php echo $m['kategori'] == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label>Harga</label>
-                      <input type="text" class="form-control" name="harga" value="<?php echo number_format($m['harga'], 0, ',', '.'); ?>" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Deskripsi</label>
-                      <textarea name="deskripsi" class="form-control" required><?php echo $m['deskripsi']; ?></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label>Gambar</label>
-                      <input type="file" class="form-control" name="gambar" accept="image/*">
-                    </div>
-                    <br>
-                    <button type="submit" class="btn btn-primary rounded">Update</button>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary rounded" data-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        <?php } ?>
-      <?php } else { ?>
-        <p class="text-center">Tidak ada data Menu</p>
-      <?php } ?>
-    </div>
-  </div>
 </section>
+
 
 
 

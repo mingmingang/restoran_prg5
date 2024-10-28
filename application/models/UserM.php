@@ -59,6 +59,30 @@ class UserM extends CI_Model {
         $this->db->where('username', $username); // Gunakan username dalam klausa WHERE
         return $this->db->update('user', $data); // 'user' adalah nama tabel Anda
     }
+
+    public function get_all_user(){
+        $this->db->where('status', 1); // Menambahkan kondisi untuk memilih status yang 1
+        $query = $this->db->get('user');
+        return $query->result_array();
+    }
+
+
+    public function get_by_id($id) {
+        return $this->db->get_where('user', ['id_user' => $id])->row_array();
+    }
+
+    public function update_user($id, $data) {
+        $this->db->where('id_user', $id);
+        return $this->db->update('user', $data);
+    }
+
+    
+
+    public function updateStatusUser($id, $status) {
+        $this->db->where('id_user', $id); // Menentukan id_makanan yang akan diperbarui
+        $this->db->update('user', array('status' => $status)); // Memperbarui status menjadi 0
+        return $this->db->affected_rows(); // Mengembalikan jumlah baris yang terpengaruh
+    }
     
 }
 ?>

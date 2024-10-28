@@ -12,7 +12,12 @@
     <!-- ===============================================-->
     <title>Foodwagon | Responsive, Ecommerce &amp; Business Templatee</title>
 
+    <style>
+      .modal {
+    z-index: 1050;
+}
 
+    </style>
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
@@ -51,37 +56,37 @@
               <div class="input-group-icon pe-2"><i class="fas fa-search input-box-icon text-primary"></i>
                 <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
               </div>
-              <a href="<?php echo base_url().'TambahMakananC'; ?>" class="btn btn-white shadow-warning text-warning">
+              <a href="<?php echo base_url().'TransaksiC/riwayat_transaksi'; ?>" class="btn btn-white shadow-warning text-warning">
     <i class="fas fa-hamburger me-2"></i>Riwayat Transaksi
 </a>
 <!-- Logout Button -->
 <a href="#" class="btn btn-white shadow-warning text-warning" data-bs-toggle="modal" data-bs-target="#logoutModal">
-    <i class="fas fa-sign-out-alt me-2"></i> Logout
+    <i class="fas fa-sign-out-alt me-2"></i> Keluar
 </a>
-
-<!-- Logout Confirmation Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Logout</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Apakah Anda yakin ingin keluar?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <a href="<?php echo base_url().'DashboardC/logout'; ?>" class="btn btn-warning">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
 
             </form>
           </div>
         </div>
       </nav>
+      <!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">Konfirmasi Keluar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin ingin keluar?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <a href="<?php echo base_url().'DashboardC/logout'; ?>" class="btn btn-warning">Keluar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
       <section class="py-5 overflow-hidden bg-primary" id="home">
         <div class="container">
           <div class="row flex-center">
@@ -265,499 +270,483 @@
           </div>
         </div><!-- end of .container-->
 
-      </section>
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
 
+        <section class="py-4 overflow-hidden">
+    <div class="container">
+        <div class="row h-100">
+            <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
+                <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Menu Makanan</h5>
+            </div>
+            <div class="col-12">
+                <div class="carousel slide" id="carouselMakananItems" data-bs-touch="false" data-bs-interval="false">
+                    <div class="carousel-inner">
+                        <?php 
+                        // Use traditional anonymous function syntax instead of arrow functions
+                        $makananItems = array_filter($makanan, function($item) {
+                            return $item->kategori === 'Makanan';
+                        });
+                        $chunkedMakananItems = array_chunk($makananItems, 5);
+                        foreach ($chunkedMakananItems as $index => $items): 
+                        ?>
+                            <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>" data-bs-interval="10000">
+                                <div class="row gx-3 h-100 align-items-center">
+                                    <?php foreach ($items as $item): ?>
+                                        <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
+                                            <div class="card card-span h-100 rounded-3">
+                                                <img class="img-fluid rounded-3 h-100" src="data:image/*;base64,<?php echo base64_encode($item->gambar); ?>" alt="<?php echo htmlspecialchars($item->nama_makanan); ?>">
+                                                <div class="card-body ps-0">
+                                                    <h5 class="fw-bold text-1000 text-truncate mb-1"><?php echo htmlspecialchars($item->nama_makanan); ?></h5>
+                                                    <div>
+                                                        <span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span>
+                                                        <span class="text-primary">Cikarang Selatan</span>
+                                                    </div>
+                                                    <span class="text-1000 fw-bold">Rp. <?php echo number_format($item->harga, 2); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="d-grid gap-2">
+                                                <a class="btn btn-lg btn-danger" role="button" href="#!"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#orderModal<?php echo $item->id_makanan; ?>"
+                                                    data-harga="<?php echo $item->harga; ?>"
+                                                    data-nama="<?php echo htmlspecialchars($item->nama_makanan); ?>">
+                                                    Pesan Sekarang
+                                                </a>
+                                            </div>
+                                        </div>
 
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="py-5">
-  <div class="container">
-    <h2 class="text-center mb-4">Popular Menu</h2>
-    <div class="row gx-2">
-      <?php if (!empty($makanan)) { ?>
-        <div class="carousel slide" id="carouselPopularItems" data-bs-touch="false" data-bs-interval="false">
-          <div class="carousel-inner">
-            <?php 
-            $counter = 0;
-            foreach ($makanan as $m) { 
-              // Start a new carousel item every 5 items
-              if ($counter % 5 == 0) {
-                echo '<div class="carousel-item' . ($counter == 0 ? ' active' : '') . '">';
-                echo '<div class="row gx-3 h-100 align-items-center">';
-              }
-            ?>
-              <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                <div class="card card-span h-100 rounded-3">
-                <img class="img-fluid rounded-3" src="data:image/jpeg;base64,<?php echo base64_encode($m['gambar']); ?>" alt="<?php echo $m['nama_makanan']; ?>" style="width: 100%; height: 200px; object-fit: cover;">
-                  <div class="card-body ps-0">
-                    <h5 class="fw-bold text-1000 text-truncate mb-1"><?php echo $m['nama_makanan']; ?></h5>
-                    <div><span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span class="text-primary">Cikarang Selatan</span></div>
-                    <span class="text-1000 fw-bold">Rp.<?php echo number_format($m['harga'], 2); ?></span>
-                  </div>
+                                        <!-- Order Modal -->
+                                        <div class="modal fade" id="orderModal<?php echo $item->id_makanan; ?>" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel<?php echo $item->id_makanan; ?>" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="orderModalLabel<?php echo $item->id_makanan; ?>"><?php echo htmlspecialchars($item->nama_makanan); ?></h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="orderForm<?php echo $item->id_makanan; ?>">
+                                                            <div class="form-group">
+                                                                <label for="jumlah<?php echo $item->id_makanan; ?>">Jumlah</label>
+                                                                <input type="number" class="form-control item-quantity" id="jumlah<?php echo $item->id_makanan; ?>" min="1" value="1" required>
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <h6 id="totalHarga<?php echo $item->id_makanan; ?>">Sub Total: Rp <?php echo number_format($item->harga, 0, ',', '.'); ?></h6>
+                                                            </div>
+                                                            <input type="hidden" id="harga<?php echo $item->id_makanan; ?>" value="<?php echo $item->harga; ?>">
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary" onclick="submitOrder('<?php echo $item->id_makanan; ?>')">Pilih Makanan</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <button class="carousel-control-prev carousel-icon" type="button" data-bs-target="#carouselMakananItems" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon hover-top-shadow" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next carousel-icon" type="button" data-bs-target="#carouselMakananItems" data-bs-slide="next">
+                        <span class="carousel-control-next-icon hover-top-shadow" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-                <div class="d-grid gap-2">
-                  <a class="btn btn-lg btn-danger" href="#!" role="button">Order now</a>
-                </div>
-              </div>
-            <?php
-              $counter++;
-              // Close carousel item every 5 items or at the end
-              if ($counter % 5 == 0 || $counter == count($makanan)) {
-                echo '</div></div>';
-              }
-            }
-            ?>
-          </div>
-          <button class="carousel-control-prev carousel-icon" type="button" data-bs-target="#carouselPopularItems" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon hover-top-shadow" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next carousel-icon" type="button" data-bs-target="#carouselPopularItems" data-bs-slide="next">
-            <span class="carousel-control-next-icon hover-top-shadow" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+            </div>
         </div>
-      <?php } else { ?>
-        <p class="text-center">No menu items available.</p>
-      <?php } ?>
     </div>
-  </div>
 </section>
 
-      <!-- <section> close ============================-->
+
+
+      <script>
+          document.querySelectorAll('.modal').forEach(modal => {
+              modal.addEventListener('show.bs.modal', function (event) {
+                  const button = event.relatedTarget;
+                  const modalId = modal.getAttribute('id');
+                  const hargaMakanan = parseFloat(button.getAttribute('data-harga'));
+                  const itemQuantity = modal.querySelector(`#jumlah${modalId.replace('orderModal', '')}`);
+                  const itemTotalPrice = modal.querySelector(`#totalHarga${modalId.replace('orderModal', '')}`);
+
+                  itemQuantity.value = 1;
+                  itemTotalPrice.textContent = `Sub Total: Rp ${hargaMakanan.toFixed(0)}`;
+
+                  itemQuantity.addEventListener('input', function() {
+                      const quantity = parseInt(itemQuantity.value);
+                      const totalPrice = hargaMakanan * quantity;
+                      itemTotalPrice.textContent = `Sub Total: Rp ${totalPrice.toFixed(0)}`;
+                  });
+              });
+          });
+      </script>
+      <!-- <Menu Makanan> close ============================-->
       <!-- ============================================-->
 
 
-      <section id="testimonial">
-        <div class="container">
-          <div class="row h-100">
-            <div class="col-lg-7 mx-auto text-center mb-6">
-              <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Featured Restaurants</h5>
-            </div>
-          </div>
-          <div class="row gx-2">
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo base_url('restaurant/assets/img/gallery/food-world.png')?>" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">20% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="<?php echo base_url('restaurant/assets/img/gallery/food-world-logo.png')?>" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Food world</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">46</span>
-                    </div>
-                  </div><span class="badge bg-soft-danger p-2"><span class="fw-bold fs-1 text-danger">Opens Tomorrow</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo base_url('restaurant/assets/img/gallery/pizza-hub.png')?>" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="<?php echo base_url('restaurant/assets/img/gallery/pizzahub-logo.png')?>" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Pizza hub</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">40</span>
-                    </div>
-                  </div><span class="badge bg-soft-danger p-2"><span class="fw-bold fs-1 text-danger">Opens Tomorrow</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo base_url('restaurant/assets/img/gallery/donuts-hut.png')?>" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">15% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="<?php echo base_url('restaurant/assets/img/gallery/donuts-hut-logo.png')?>" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Donuts hut</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">20</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo base_url('restaurant/assets/img/gallery/donuthut.png')?>" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">15% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="<?php echo base_url('restaurant/assets/img/gallery/donut-hut-logo.png')?>" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Donuts hut</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo base_url('restaurant/assets/img/gallery/ruby-tuesday.png')?>" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="<?php echo base_url('restaurant/assets/img/gallery/ruby-tuesday-logo.png')?>" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Ruby tuesday</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo base_url('restaurant/assets/img/gallery/kuakata.png')?>" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="<?php echo base_url('restaurant/assets/img/gallery/kuakata-logo.png')?>" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Kuakata Fried Chicken</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo base_url('restaurant/assets/img/gallery/red-square.png')?>" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="<?php echo base_url('restaurant/assets/img/gallery/red-square-logo.png')?>" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Kuakata Fried Chicken</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo base_url('restaurant/assets/img/gallery/taco-bell.png')?>" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="<?php echo base_url('restaurant/assets/img/gallery/taco-bell-logo.png')?>" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Taco bell</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 d-flex justify-content-center mt-5"> <a class="btn btn-lg btn-primary" href="#!">View All <i class="fas fa-chevron-right ms-2"> </i></a></div>
-          </div>
-        </div>
-      </section>
-
-
       <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="py-8 overflow-hidden">
-
-        <div class="container">
-          <div class="row flex-center mb-6">
-            <div class="col-lg-7">
-              <h5 class="fw-bold fs-3 fs-lg-5 lh-sm text-center text-lg-start">Search by Food</h5>
+      <!-- <Menu Minuman> begin ============================-->
+      <section class="py-4 overflow-hidden">
+    <div class="container">
+        <div class="row h-100">
+            <div class="col-lg-7 mx-auto text-center mt-7 mb-5">
+                <h5 class="fw-bold fs-3 fs-lg-5 lh-sm">Menu Minuman</h5>
             </div>
-            <div class="col-lg-4 text-lg-end text-center"><a class="btn btn-lg text-800 me-2" href="#" role="button">VIEW ALL <i class="fas fa-chevron-right ms-2"></i></a></div>
-            <div class="col-lg-auto position-relative">
-              <button class="carousel-control-prev s-icon-prev carousel-icon" type="button" data-bs-target="#carouselSearchByFood" data-bs-slide="prev"><span class="carousel-control-prev-icon hover-top-shadow" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
-              <button class="carousel-control-next s-icon-next carousel-icon" type="button" data-bs-target="#carouselSearchByFood" data-bs-slide="next"><span class="carousel-control-next-icon hover-top-shadow" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
-            </div>
-          </div>
-          <div class="row flex-center">
             <div class="col-12">
-              <div class="carousel slide" id="carouselSearchByFood" data-bs-touch="false" data-bs-interval="false">
-                <div class="carousel-inner">
-                  <div class="carousel-item active" data-bs-interval="10000">
-                    <div class="row h-100 align-items-center">
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/search-pizza.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">pizza</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/burger.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Burger</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/noodles.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Noodles</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/sub-sandwich.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Sub-sandwiches</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/chowmein.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Chowmein</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/steak.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Steak</h5>
-                          </div>
-                        </div>
-                      </div>
+                <div class="carousel slide" id="carouselMinumanItems" data-bs-touch="false" data-bs-interval="false">
+                    <div class="carousel-inner">
+                        <?php 
+                        // Use traditional anonymous function syntax instead of arrow functions
+                        $minumanItems = array_filter($makanan, function($item) {
+                            return $item->kategori === 'Minuman';
+                        });
+                        $chunkedMinumanItems = array_chunk($minumanItems, 5);
+                        foreach ($chunkedMinumanItems as $index => $items): 
+                        ?>
+                            <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>" data-bs-interval="10000">
+                                <div class="row gx-3 h-100 align-items-center">
+                                    <?php foreach ($items as $item): ?>
+                                        <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
+                                            <div class="card card-span h-100 rounded-3">
+                                                <img class="img-fluid rounded-3 h-100" src="data:image/*;base64,<?php echo base64_encode($item->gambar); ?>" alt="<?php echo htmlspecialchars($item->nama_makanan); ?>">
+                                                <div class="card-body ps-0">
+                                                    <h5 class="fw-bold text-1000 text-truncate mb-1"><?php echo htmlspecialchars($item->nama_makanan); ?></h5>
+                                                    <div>
+                                                        <span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span>
+                                                        <span class="text-primary">Cikarang Selatan</span>
+                                                    </div>
+                                                    <span class="text-1000 fw-bold">Rp. <?php echo number_format($item->harga, 2); ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="d-grid gap-2">
+                                                <a class="btn btn-lg btn-danger" role="button" href="#!"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#orderModal<?php echo $item->id_makanan; ?>"
+                                                    data-harga="<?php echo $item->harga; ?>"
+                                                    data-nama="<?php echo htmlspecialchars($item->nama_makanan); ?>">
+                                                    Pesan Sekarang
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Order Modal -->
+                                        <div class="modal fade" id="orderModal<?php echo $item->id_makanan; ?>" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel<?php echo $item->id_makanan; ?>" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="orderModalLabel<?php echo $item->id_makanan; ?>"><?php echo htmlspecialchars($item->nama_makanan); ?></h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="orderForm<?php echo $item->id_makanan; ?>">
+                                                            <div class="form-group">
+                                                                <label for="jumlah<?php echo $item->id_makanan; ?>">Jumlah</label>
+                                                                <input type="number" class="form-control item-quantity" id="jumlah<?php echo $item->id_makanan; ?>" min="1" value="1" required>
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <h6 id="totalHarga<?php echo $item->id_makanan; ?>">Sub Total: Rp <?php echo number_format($item->harga, 0, ',', '.'); ?></h6>
+                                                            </div>
+                                                            <input type="hidden" id="harga<?php echo $item->id_makanan; ?>" value="<?php echo $item->harga; ?>">
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary" onclick="submitOrder('<?php echo $item->id_makanan; ?>')">Pilih Minuman</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                  </div>
-                  <div class="carousel-item" data-bs-interval="5000">
-                    <div class="row h-100 align-items-center">
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/search-pizza.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">pizza</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/burger.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Burger</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/noodles.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Noodles</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/sub-sandwich.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Sub-sandwiches</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/chowmein.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Chowmein</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/steak.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Steak</h5>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="carousel-item" data-bs-interval="3000">
-                    <div class="row h-100 align-items-center">
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/search-pizza.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">pizza</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/burger.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Burger</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/noodles.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Noodles</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/sub-sandwich.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Sub-sandwiches</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/chowmein.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Chowmein</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/steak.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Steak</h5>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <div class="row h-100 align-items-center">
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/search-pizza.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">pizza</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/burger.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Burger</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/noodles.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Noodles</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/sub-sandwich.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Sub-sandwiches</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/chowmein.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Chowmein</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                        <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="<?php echo base_url('restaurant/assets/img/gallery/steak.png')?>" alt="..." />
-                          <div class="card-body ps-0">
-                            <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Steak</h5>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    <button class="carousel-control-prev carousel-icon" type="button" data-bs-target="#carouselMinumanItems" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon hover-top-shadow" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next carousel-icon" type="button" data-bs-target="#carouselMinumanItems" data-bs-slide="next">
+                        <span class="carousel-control-next-icon hover-top-shadow" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-              </div>
             </div>
-          </div>
-        </div><!-- end of .container-->
-
-      </section>
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-      <section>
-        <div class="bg-holder" style="background-image:url(assets/img/gallery/cta-one-bg.png);background-position:center;background-size:cover;">
         </div>
-        <!--/.bg-holder-->
+    </div>
+</section>
 
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-xxl-10">
-              <div class="card card-span shadow-warning" style="border-radius: 35px;">
-                <div class="card-body py-5">
-                  <div class="row justify-content-evenly">
-                    <div class="col-md-3">
-                      <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="<?php echo base_url('restaurant/assets/img/icons/discounts.png')?>" width="100" alt="..." />
-                        <div class="d-flex d-lg-block d-xl-flex flex-center">
-                          <h2 class="fw-bolder text-1000 mb-0 text-gradient">Daily<br class="d-none d-md-block" />Discounts </h2>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3 hr-vertical">
-                      <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="<?php echo base_url('restaurant/assets/img/icons/live-tracking.png')?>" width="100" alt="..." />
-                        <div class="d-flex d-lg-block d-xl-flex flex-center">
-                          <h2 class="fw-bolder text-1000 mb-0 text-gradient">Live Tracking</h2>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3 hr-vertical">
-                      <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="<?php echo base_url('restaurant/assets/img/icons/quick-delivery.png')?>" width="100" alt="..." />
-                        <div class="d-flex d-lg-block d-xl-flex flex-center">
-                          <h2 class="fw-bolder text-1000 mb-0 text-gradient">Quick Delivery </h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+      <script>
+          document.querySelectorAll('.modal').forEach(modal => {
+              modal.addEventListener('show.bs.modal', function (event) {
+                  const button = event.relatedTarget;
+                  const modalId = modal.getAttribute('id');
+                  const hargaMakanan = parseFloat(button.getAttribute('data-harga'));
+                  const itemQuantity = modal.querySelector(`#jumlah${modalId.replace('orderModal', '')}`);
+                  const itemTotalPrice = modal.querySelector(`#totalHarga${modalId.replace('orderModal', '')}`);
+
+                  itemQuantity.value = 1;
+                  itemTotalPrice.textContent = `Sub Total: Rp ${hargaMakanan.toFixed(0)}`;
+
+                  itemQuantity.addEventListener('input', function() {
+                      const quantity = parseInt(itemQuantity.value);
+                      const totalPrice = hargaMakanan * quantity;
+                      itemTotalPrice.textContent = `Sub Total: Rp ${totalPrice.toFixed(0)}`;
+                  });
+              });
+          });
+
+          
+      </script>
+    <!-- <Menu Minuman> close ============================-->
+    <!-- ============================================-->
+     
+    
+    
+    <!-- ============================================-->
+    <!-- <section table> begin ============================-->
+    <section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Detail Pembelian</h2>
+        <h4>ID Pembelian :</h4>
+        <table class="table table-striped table-bordered">
+            <thead style="text-align:center;">
+                <tr>
+                    <!-- <th>ID Makanan</th> -->
+                    <th>Nama Makanan</th>
+                    <th>Kategori</th>
+                    <th>Harga</th>
+                    <th>Jumlah</th>
+                    <th>Sub Total</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data Detail Pembelian akan ditambahkan di sini oleh JavaScript -->
+            </tbody>
+        </table>
+        <!-- Modal Konfirmasi Hapus -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Hapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </div>
-          <div class="row flex-center mt-md-8">
-            <div class="col-lg-5 d-none d-lg-block" style="margin-bottom: -122px;"> <img class="w-100" src="<?php echo base_url('restaurant/assets/img/gallery/phone-cta-one.png')?>" alt="..." /></div>
-            <div class="col-lg-5 mt-7 mt-md-0">
-              <h1 class="text-primary">Install the app</h1>
-              <p>It's never been easier to order food. Look for the finest <br class="d-none d-xl-block" />discounts and you'll be lost in a world of delectable food.</p><a class="pe-2" href="https://www.apple.com/app-store/" target="_blank"><img src="<?php echo base_url('restaurant/assets/img/gallery/app-store.svg')?>" width="160" alt="" /></a><a href="https://play.google.com/store/apps" target="_blank"><img src="<?php echo base_url('restaurant/assets/img/gallery/google-play.svg')?>" width="160" alt="" /></a>
+            <div class="modal-body">
+                Apakah Anda yakin ingin menghapus pesanan ini?
             </div>
-          </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
+            </div>
         </div>
-      </section>
+    </div>
+</div>
 
+        <h5 class="total-harga mb-4">Total Harga : Rp 0</h5>
+        <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" id="pesanButton">
+    Pesan
+</button>
 
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="pb-5 pt-8">
-
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="card card-span mb-3 shadow-lg">
-                <div class="card-body py-0">
-                  <div class="row justify-content-center">
-                    <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="<?php echo base_url('restaurant/assets/img/gallery/crispy-sandwiches.png')?>" alt="..." /></div>
-                    <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                      <h1 class="card-title mt-xl-5 mb-4">Best deals <span class="text-primary"> Crispy Sandwiches</span></h1>
-                      <p class="fs-1">Enjoy the large size of sandwiches. Complete your meal with the perfect slice of sandwiches.</p>
-                      <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<!-- Modal Informasi Pesanan Kosong -->
+<div class="modal fade" id="emptyOrderModal" tabindex="-1" aria-labelledby="emptyOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emptyOrderModalLabel">Informasi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </div>
-        </div><!-- end of .container-->
-
-      </section>
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
-
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="py-0">
-
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="card card-span mb-3 shadow-lg">
-                <div class="card-body py-0">
-                  <div class="row justify-content-center">
-                    <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-md-0"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-start rounded-md-top-0" src="<?php echo base_url('restaurant/assets/img/gallery/fried-chicken.png')?>" alt="..." /></div>
-                    <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                      <h1 class="card-title mt-xl-5 mb-4">Celebrate parties with <span class="text-primary">Fried Chicken</span></h1>
-                      <p class="fs-1">Get the best fried chicken smeared with a lip smacking lemon chili flavor. Check out best deals for fried chicken.</p>
-                      <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="modal-body">
+                Mohon pilih pesanan terlebih dahulu.
             </div>
-          </div>
-        </div><!-- end of .container-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-      </section>
+<!-- Modal Konfirmasi Pesan -->
+<div class="modal fade" id="confirmOrderModal" tabindex="-1" aria-labelledby="confirmOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmOrderModalLabel">Konfirmasi Pesanan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda ingin memesan ini?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="confirmOrderButton">Ya, Pesan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('pesanButton').addEventListener('click', function() {
+        if (detailPesanan.length === 0) {
+            const emptyOrderModal = new bootstrap.Modal(document.getElementById('emptyOrderModal'));
+            emptyOrderModal.show();
+        } else {
+            const confirmOrderModal = new bootstrap.Modal(document.getElementById('confirmOrderModal'));
+            confirmOrderModal.show();
+        }
+    });
+
+    document.getElementById('confirmOrderButton').addEventListener('click', function() {
+    // Create an order object
+    const orderData = {
+        id_trs: generateUniqueId(), // Function to generate a unique transaction ID
+        total_harga: detailPesanan.reduce((sum, item) => sum + item.total, 0),
+        detailPesanan: detailPesanan.map(item => ({
+            id_makanan: item.idMakanan,
+            jumlah: item.jumlah,
+            harga_satuan: item.harga,
+            subtotal: item.total
+        }))
+    };
+
+    // Send AJAX request to submit order
+    fetch('<?= site_url('transaksic/submitOrder') ?>', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Pesanan Anda telah dikonfirmasi!");
+            // Reset detailPesanan and update the table
+            detailPesanan = [];
+            updateDetailPesananTable();
+            const confirmOrderModal = bootstrap.Modal.getInstance(document.getElementById('confirmOrderModal'));
+            confirmOrderModal.hide();
+        } else {
+            alert("Terjadi kesalahan saat mengkonfirmasi pesanan.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Terjadi kesalahan. Silakan coba lagi.");
+    });
+});
+
+// Helper function to generate a unique transaction ID
+function generateUniqueId() {
+    return 'TR' + Date.now().toString(36); // Generates a unique ID based on timestamp
+}
+
+</script>
+
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript untuk Menambah Data ke Tabel -->
+<script>
+  let detailPesanan = []; // Array untuk menyimpan detail pesanan sementara
+
+function submitOrder(itemId) {
+    // Ambil elemen terkait pesanan
+    const namaMakanan = document.querySelector(`#orderModal${itemId} .modal-title`).textContent;
+    const hargaMakanan = parseFloat(document.querySelector(`#harga${itemId}`).value);
+    const jumlahMakanan = parseInt(document.querySelector(`#jumlah${itemId}`).value);
+
+    // Hitung total harga untuk item ini (sub total)
+    const totalHargaItem = hargaMakanan * jumlahMakanan;
+
+    // Cari apakah item sudah ada di detailPesanan berdasarkan itemId
+    const existingOrderIndex = detailPesanan.findIndex(pesanan => pesanan.idMakanan === itemId);
+
+    if (existingOrderIndex !== -1) {
+        // Jika item sudah ada, perbarui jumlah dan total harga
+        detailPesanan[existingOrderIndex].jumlah += jumlahMakanan;
+        detailPesanan[existingOrderIndex].total = detailPesanan[existingOrderIndex].harga * detailPesanan[existingOrderIndex].jumlah;
+    } else {
+        // Jika item belum ada, tambahkan sebagai pesanan baru
+        const pesananBaru = {
+            idMakanan: itemId,
+            namaMakanan,
+            kategori: "Minuman",
+            harga: hargaMakanan,
+            jumlah: jumlahMakanan,
+            total: totalHargaItem // Sub Total untuk item ini
+        };
+        detailPesanan.push(pesananBaru);
+    }
+
+    // Perbarui tampilan tabel
+    updateDetailPesananTable();
+
+    // Tutup modal
+    document.querySelector(`#orderModal${itemId} .btn-close`).click();
+}
+
+function updateDetailPesananTable() {
+    const tbody = document.querySelector('table tbody');
+    tbody.innerHTML = ''; // Kosongkan isi tabel sebelum diisi ulang
+
+    detailPesanan.forEach((pesanan, index) => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td>${pesanan.namaMakanan}</td>
+            <td>${pesanan.kategori}</td>
+            <td>Rp ${pesanan.harga.toLocaleString('id-ID')}</td>
+            <td>${pesanan.jumlah}</td>
+            <td>Rp ${pesanan.total.toLocaleString('id-ID')}</td> <!-- Tampilkan Sub Total -->
+             <td style="text-align:center;"><a onclick="confirmHapusPesanan(${index})" class="text-danger" > <i class="fas fa-trash-alt"></i></a></td>
+            
+        `;
+
+        tbody.appendChild(row);
+    });
+
+    // Perbarui total harga keseluruhan
+    updateTotalHarga();
+}
+
+function updateTotalHarga() {
+    const totalHarga = detailPesanan.reduce((sum, pesanan) => sum + pesanan.total, 0);
+    document.querySelector('.total-harga').textContent = `Total Harga : Rp ${totalHarga.toLocaleString('id-ID')}`;
+}
+
+function hapusPesanan(index) {
+    detailPesanan.splice(index, 1); // Hapus item dari array
+    updateDetailPesananTable(); // Perbarui tampilan tabel
+}
+
+function confirmHapusPesanan(index) {
+    indexPesananUntukDihapus = index;
+    const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    confirmDeleteModal.show();
+}
+
+document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+    if (indexPesananUntukDihapus !== null) {
+        detailPesanan.splice(indexPesananUntukDihapus, 1);
+        updateDetailPesananTable();
+        indexPesananUntukDihapus = null; // Reset setelah dihapus
+    }
+    const confirmDeleteModal = bootstrap.Modal.getInstance(document.getElementById('confirmDeleteModal'));
+    confirmDeleteModal.hide();
+});
+
+
+
+</script>
+    <!-- ============================================-->
+    <!-- <section> end ============================-->
+
       <!-- <section> close ============================-->
       <!-- ============================================-->
 

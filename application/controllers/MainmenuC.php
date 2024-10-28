@@ -9,7 +9,9 @@ class MainmenuC extends CI_Controller {
     
     public function index(){
         $this->load->helper('url');
-        $this->load->view('Mainmenu');
+        $this->load->model('MakananModel');
+		$data['makanan'] = $this->MakananModel->get_all_makanan();
+		$this->load->view('mainmenu', $data);
     }
     
 }
