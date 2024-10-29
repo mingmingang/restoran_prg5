@@ -146,6 +146,11 @@
 <section class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">Riwayat Transaksi</h2>
+    <div class="text-left mb-4">
+      <div class="d-flex justify-content-end">
+        <a href="<?php echo base_url('excel.php?id_user=' . $this->session->userdata('id_user')); ?>" class="btn btn-primary">Export to Excel</a>
+      </div>
+    </div>
     <table class="table table-striped table-bordered">
       <thead style="text-align: center;">
         <tr>

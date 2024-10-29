@@ -272,6 +272,12 @@
 <section class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">Data Menu</h2>
+      <!-- Export Excel-->
+      <div class="text-left mb-4">
+      <div class="d-flex justify-content-end">
+      <a href="<?php echo base_url('excelMakanan.php'); ?>"><input type="submit" class="btn btn-primary" value="Export to Excel"></a>&nbsp;
+      </div>
+    </div>
     <div class="row gx-2">
       <?php if (!empty($makanan)) { ?>
         <?php foreach ($makanan as $m) { ?>

@@ -226,88 +226,129 @@
       <!-- ============================================-->
 
 
-
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="py-0 bg-primary-gradient">
+   <!-- ============================================-->
+    <!-- <section Chart> begin ============================-->
+    <section class="py-0 bg-primary-gradient">
 
         <div class="container">
           <div class="row justify-content-center g-0">
             <div class="col-xl-9">
+              <div class="row-chart" style="display: flex;">
+              <div class="chart-data" style="margin-left: -200px;">
               <div class="col-lg-6 text-center mx-auto mb-3 mb-md-5 mt-4">
-                <h5 class="fw-bold text-danger fs-3 fs-lg-5 lh-sm my-6">How does it work</h5>
+                <h5 class="fw-bold text-danger fs-3 fs-lg-5 lh-sm my-6" style="width: 600px; margin-left:-150px;">Jumlah Transaksi Per Tanggal</h5>
+              </div>
+                <div style="width: 600px; margin: 10px;">
+                    <canvas id="myChart"></canvas>
+                </div>
+
+    <!-- <Chart Trs berdasarkan Tgl> begin ============================-->
+      <script>
+        // Fungsi untuk mengambil data transaksi berdasarkan tanggal
+        async function fetchTransactionsByDate() {
+            const response = await fetch('<?php echo base_url('ChartController/getTransactionsByDate'); ?>');
+            const data = await response.json();
+            return data;
+        }
+
+        // Fungsi untuk menampilkan chart
+        async function renderChart() {
+            const chartData = await fetchTransactionsByDate();
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar', // Tipe chart
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Jumlah Transaksi',
+                        data: chartData.data,
+                        backgroundColor: 'rgba(250, 182, 46, 1)',
+                        borderColor: 'rgba(250, 182, 46, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Panggil fungsi renderChart saat halaman dimuat
+        renderChart();
+      </script>
+    <!-- <Chart Trs berdasarkan Tgl> Ending ============================-->
+      </div>
+
+    <!-- <Chart Jumlah data makanan minuman> Begining ============================-->
+      <div class="chart-data">
+    <div class="col-lg-6 text-center mx-auto mb-3 mb-md-5 mt-4">
+                <h5 class="fw-bold text-danger fs-3 fs-lg-5 lh-sm my-6" style="width: 800px; margin-left:-250px;">Jumlah Data Makanan dan Minuman</h5>
               </div>
 
-                <canvas id="makananChart" width="400" height="200"></canvas>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div style="width: 50%; margin: 0px 120px; margin-bottom: 60px;">
+                    <canvas id="myChart3"></canvas>
+                </div>
 
-  <script>
-      // Prepare data for Chart.js
-      const makananData = [{"nama_makanan":"Burger","harga":35000},{"nama_makanan":"Pizza","harga":75000}];
-      
-      // Extract names and prices
-      const labels = makananData.map(item => item.nama_makanan);
-      const prices = makananData.map(item => item.harga);
+                <script>
+        async function fetchFoodAndDrinkCount() {
+            const response = await fetch('<?php echo base_url('ChartController/getFoodAndDrinkCount'); ?>');
+            const data = await response.json();
+            return data;
+        }
 
-      // Chart configuration
-      const ctx = document.getElementById('makananChart').getContext('2d');
-      const makananChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-              labels: labels,
-              datasets: [{
-                  label: 'Harga Makanan',
-                  data: prices,
-                  backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                  borderColor: 'rgba(54, 162, 235, 1)',
-                  borderWidth: 1
-              }]
-          },
-          options: {
-              scales: {
-                  y: {
-                      beginAtZero: true
-                  }
-              }
-          }
-      });
-  </script>
+        async function renderChart() {
+            const chartData = await fetchFoodAndDrinkCount();
 
-<canvas id="makananChar" width="400" height="200"></canvas>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            const ctx = document.getElementById('myChart3').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut', // Tipe chart menggunakan pie
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Persentase Makanan dan Minuman',
+                        data: chartData.data,
+                        backgroundColor: [
+                            'rgba(241, 114, 40, 0.8)', // Warna untuk Makanan
+                            'rgba(255, 179, 14, 0.8)'  // Warna untuk Minuman
+                        ],
+                        borderColor: [
+                            'rgba(241, 114, 40, 1)', // Warna border untuk Makanan
+                            'rgba(255, 179, 14, 1)'  // Warna border untuk Minuman
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top', // Posisi legenda
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return `${tooltipItem.label}: ${tooltipItem.raw.toFixed(2)}%`; // Format tooltip
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
-  <script>
-      // Prepare data for Chart.js
-      const transaksi = [{"nama_makanan":"Burger","harga":35000},{"nama_makanan":"Pizza","harga":75000}];
-      
-      // Extract names and prices
-       const label = transaksi.map(item => item.nama_makanan);
-       const price = transaksi.map(item => item.harga);
+        renderChart();
+    </script>
+    <!-- <Chart Jumlah data makanan minuman> Ending ============================-->
 
-      // Chart configuration
-      const ct = document.getElementById('makananChar').getContext('2d');
-      const transaksiChart = new Chart(ct, {
-          type: 'pie',
-          data: {
-              labels: label,
-              datasets: [{
-                  label: 'Harga Makanan',
-                  data: price,
-                  backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                  borderColor: 'rgba(54, 162, 235, 1)',
-                  borderWidth: 1
-              }]
-          },
-          options: {
-              scales: {
-                  y: {
-                      beginAtZero: true
-                  }
-              }
-          }
-      });
-  </script>
+    </div>
+    </div>
+
+
               <div class="row">
                 <div class="col-sm-6 col-md-3 mb-6">
                   <div class="text-center"><img class="shadow-icon" src="<?php echo base_url('restaurant/assets/img/gallery/location.png')?>" height="112" alt="..." />

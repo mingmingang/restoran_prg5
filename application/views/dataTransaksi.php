@@ -62,10 +62,10 @@
               <i class="fas fa-home me-2"></i>Beranda
               </a>
                 <a href="<?php echo base_url().'TambahMakananC'; ?>" class="btn btn-white shadow-warning text-warning">
-    <i class="fas fa-hamburger me-2"></i>Tambah Menu
+    <i class="fas fa-hamburger me-2"></i>Data Menu
 </a>
 <a href="<?php echo base_url().'UserC/addUser'; ?>" class="btn btn-white shadow-warning text-warning">
-              <i class="fas fa-user me-2"></i>Tambah Pengguna
+              <i class="fas fa-user me-2"></i>Data Pengguna
 </a>
 <a href="#" class="btn btn-white shadow-warning text-warning" data-bs-toggle="modal" data-bs-target="#logoutModal">
     <i class="fas fa-sign-out-alt me-2"></i> Keluar
@@ -149,6 +149,11 @@
         <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-4">Data Transaksi</h2>
+            <div class="text-left mb-4">
+      <div class="d-flex justify-content-end">
+        <a href="<?php echo base_url('excelalltransaction.php'); ?>" class="btn btn-primary">Export to Excel</a>
+      </div>
+    </div>
             <table class="table table-striped table-bordered">
             <thead style="text-align: center;">
                 <tr>

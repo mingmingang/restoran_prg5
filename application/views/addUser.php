@@ -189,6 +189,12 @@
 <section class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">Data Pengguna</h2>
+         <!-- Export Excel-->
+         <div class="text-left mb-4">
+      <div class="d-flex justify-content-end">
+      <a href="<?php echo base_url('excelpengguna.php'); ?>"><input type="submit" class="btn btn-primary" value="Export to Excel"></a>&nbsp;
+      </div>
+    </div>
     <table class="table table-striped table-bordered">
       <thead style="text-align: center;">
         <tr>
