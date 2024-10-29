@@ -76,13 +76,27 @@ class TransaksiC extends CI_Controller {
         // Load the view with transactions data
         $this->load->view('riwayattransaksi', ['transaksi_makanan' => $transactions]);
 
-}
+    }
 
-public function getDetailTransaksi($id_trs) {
-  // Fetch the detail for the specified transaction
-  $detail_transaksi = $this->OrderModel->getDetailTransaksi($id_trs);
+    public function data_transaksi(){
+        // Fetch transactions for the user
+        $this->load->model('OrderModel'); // Load your model
+        $transactions = $this->OrderModel->get_all_transaction();
+    
+        // Debugging: Check if transactions are fetched
+        log_message('debug', 'Fetched transactions: ' . json_encode($transactions)); // Log fetched transactions
+    
+        // Load the view with transactions data
+        $this->load->view('dataTransaksi', ['transaksi_makanan' => $transactions]);
 
-  // Return the details as JSON for modal
-  echo json_encode($detail_transaksi);
-}
+    }
+
+    public function getDetailTransaksi($id_trs) {
+        // Fetch the detail for the specified transaction
+        $detail_transaksi = $this->OrderModel->getDetailTransaksi($id_trs);
+
+        // Return the details as JSON for modal
+        echo json_encode($detail_transaksi);
+    }
+
 }

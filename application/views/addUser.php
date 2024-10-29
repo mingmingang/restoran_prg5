@@ -62,9 +62,9 @@
               <i class="fas fa-home me-2"></i>Beranda
               </a>
               <a href="<?php echo base_url().'TambahMakananC'; ?>" class="btn btn-white shadow-warning text-warning">
-    <i class="fas fa-hamburger me-2"></i>Tambah Menu
+    <i class="fas fa-hamburger me-2"></i>Data Menu
 </a>
-<a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+<a href="<?php echo base_url().'TransaksiC/data_transaksi'; ?>" class="btn btn-white shadow-warning text-warning">
               <i class="fas fa-shopping-cart  me-2"></i>Data Transaksi
 </a>
 <a href="#" class="btn btn-white shadow-warning text-warning" data-bs-toggle="modal" data-bs-target="#logoutModal">

@@ -42,6 +42,19 @@
     return $query->result_array(); // Returns an array of transactions
         }
 
+        public function get_all_transaction() {
+            // Get all transactions for the specified user
+       $this->db->select('*');
+       $this->db->from('transaksi_makanan');
+       $query = $this->db->get();
+   
+       // Debugging: Check the query result
+       log_message('debug', 'SQL Query: ' . $this->db->last_query());
+   
+       // Return the result as an array
+       return $query->result_array(); // Returns an array of transactions
+           }
+
         public function getDetailTransaksi($id_trs) {
                 // Joining 'detail_transaksi_makanan' with 'makanan' to get the food name
                 $this->db->select('dt.id_trs, dt.jumlah, dt.harga_satuan, dt.subtotal, m.nama_makanan');

@@ -24,7 +24,7 @@
     <link rel="manifest" href="<?php echo base_url('restaurant/assets/img/favicons/manifest.json') ?>">
     <meta name="msapplication-TileImage" content="<?php echo base_url('restaurant/assets/img/favicons/mstile-150x150.png')?>">
     <meta name="theme-color" content="#ffffff">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
@@ -49,12 +49,12 @@
                 <input class="form-control border-0 input-box bg-100" type="search" placeholder="Search Food" aria-label="Search" />
               </div>
               <a href="<?php echo base_url().'TambahMakananC'; ?>" class="btn btn-white shadow-warning text-warning">
-    <i class="fas fa-hamburger me-2"></i>Tambah Menu
+    <i class="fas fa-hamburger me-2"></i>Data Menu
 </a>
 <a href="<?php echo base_url().'UserC/addUser'; ?>" class="btn btn-white shadow-warning text-warning">
-              <i class="fas fa-user me-2"></i>Tambah Pengguna
+              <i class="fas fa-user me-2"></i>Data Pengguna
 </a>
-<a href="<?php echo base_url().'DashboardC'; ?>" class="btn btn-white shadow-warning text-warning">
+<a href="<?php echo base_url().'TransaksiC/data_transaksi'; ?>" class="btn btn-white shadow-warning text-warning">
               <i class="fas fa-shopping-cart  me-2"></i>Data Transaksi
 </a>
 <a href="#" class="btn btn-white shadow-warning text-warning" data-bs-toggle="modal" data-bs-target="#logoutModal">
@@ -238,6 +238,76 @@
               <div class="col-lg-6 text-center mx-auto mb-3 mb-md-5 mt-4">
                 <h5 class="fw-bold text-danger fs-3 fs-lg-5 lh-sm my-6">How does it work</h5>
               </div>
+
+                <canvas id="makananChart" width="400" height="200"></canvas>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+      // Prepare data for Chart.js
+      const makananData = [{"nama_makanan":"Burger","harga":35000},{"nama_makanan":"Pizza","harga":75000}];
+      
+      // Extract names and prices
+      const labels = makananData.map(item => item.nama_makanan);
+      const prices = makananData.map(item => item.harga);
+
+      // Chart configuration
+      const ctx = document.getElementById('makananChart').getContext('2d');
+      const makananChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: 'Harga Makanan',
+                  data: prices,
+                  backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+  </script>
+
+<canvas id="makananChar" width="400" height="200"></canvas>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+      // Prepare data for Chart.js
+      const transaksi = [{"nama_makanan":"Burger","harga":35000},{"nama_makanan":"Pizza","harga":75000}];
+      
+      // Extract names and prices
+       const label = transaksi.map(item => item.nama_makanan);
+       const price = transaksi.map(item => item.harga);
+
+      // Chart configuration
+      const ct = document.getElementById('makananChar').getContext('2d');
+      const transaksiChart = new Chart(ct, {
+          type: 'pie',
+          data: {
+              labels: label,
+              datasets: [{
+                  label: 'Harga Makanan',
+                  data: price,
+                  backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+  </script>
               <div class="row">
                 <div class="col-sm-6 col-md-3 mb-6">
                   <div class="text-center"><img class="shadow-icon" src="<?php echo base_url('restaurant/assets/img/gallery/location.png')?>" height="112" alt="..." />
@@ -271,6 +341,8 @@
       </section>
       <!-- <section> close ============================-->
       <!-- ============================================-->
+
+    
 
 
 
@@ -660,7 +732,7 @@
 
 
       <section>
-        <div class="bg-holder" style="background-image:url(assets/img/gallery/cta-one-bg.png);background-position:center;background-size:cover;">
+        <div class="bg-holder" style="background-image:url(restaurant/assets/img/gallery/cta-one-bg.png);background-position:center;background-size:cover;">
         </div>
         <!--/.bg-holder-->
 
